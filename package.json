@@ -4,6 +4,10 @@
   "description": "Type Safe Object Notation & Validation",
   "private": "true",
   "scripts": {
+    "build":"pnpm -C core run build",
+    "test":"pnpm -C test run test",
+    "test:watch":"pnpm -C test run watch",
+    "test:coverage":"pnpm -C test run coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

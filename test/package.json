@@ -5,8 +5,8 @@
   "private": "true",
   "scripts": {
     "test": "vitest run",
-    "test-watch": "vitest watch",
-    "test-coverage": "vitest run --coverage"
+    "watch": "vitest watch",
+    "coverage": "vitest run --coverage"
   },
   "keywords": [
     "typescript",
