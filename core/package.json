@@ -1,7 +1,7 @@
 {
   "name": "tosi",
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
   "description": "Type Safe Object Notation & Validation",
   "keywords": [
     "typescript",
