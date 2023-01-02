@@ -1,12 +1,14 @@
 import { TypeCheckError } from './errors'
 import type {
   CheckType,
+  InferTuple,
   InferType,
   ObjectType,
   Schema,
   Type,
   UnwrapSchema,
 } from './types'
+import { typeOf } from './util'
 
 function check<TReturn>(
   type: CheckType,
@@ -91,6 +93,37 @@ export function optional<TType extends Type<InferType<TType>>>(
         return undefined
 
       return type.check(input)
+    },
+  }
+}
+
+export function union<TTypes extends Type<InferTuple<TTypes>>[]>(
+  types: TTypes,
+): Type<InferTuple<TTypes>> {
+  return {
+    check(input: unknown): InferTuple<TTypes> {
+      const expectTypes: Set<string> = new Set()
+      let errorCount = 0
+
+      types.forEach((type) => {
+        try {
+          type.check(input)
+        }
+        catch (error) {
+          if (error instanceof TypeCheckError)
+            expectTypes.add(error.expected)
+
+          errorCount++
+        }
+      })
+
+      if (errorCount === types.length) {
+        throw new Error(
+          `expected '${[...expectTypes].join('|')}' got '${typeOf(input)}'`,
+        )
+      }
+
+      return input as InferTuple<TTypes>
     },
   }
 }
