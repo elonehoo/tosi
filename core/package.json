@@ -1,6 +1,7 @@
 {
   "name": "tosi",
   "version": "0.0.0",
+  "type": "module",
   "description": "Type Safe Object Notation & Validation",
   "keywords": [
     "typescript",
@@ -9,11 +10,11 @@
   "license": "MIT",
   "author": "Elone Hoo <elonehoo@gmail.com> (https://github.com/elonehoo)",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.cjs",
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }

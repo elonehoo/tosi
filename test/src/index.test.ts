@@ -72,7 +72,7 @@ test('object(): with invalid input', () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   expect(() => t.object(input).check(input)).toThrow(
-    'a.check is not a function',
+    'p.check is not a function',
   )
 })
 

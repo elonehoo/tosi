@@ -2,6 +2,7 @@
   "name": "@tosi/test",
   "version": "0.0.0",
   "private": "true",
+  "type": "module",
   "description": "Type Safe Object Notation & Validation",
   "keywords": [
     "typescript",
