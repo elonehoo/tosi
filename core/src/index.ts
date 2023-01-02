@@ -1,5 +1,6 @@
 import { TypeCheckError } from './errors'
 import type {
+  AnyFunction,
   CheckType,
   InferTuple,
   InferType,
@@ -15,7 +16,7 @@ function check<TReturn>(
   input: unknown,
   path?: string[],
 ): TReturn {
-  if (typeof input === type)
+  if (typeOf(input) === type)
     return input as TReturn
 
   throw new TypeCheckError(type, input, path)
@@ -41,6 +42,46 @@ export function number(): Type<number> {
   return {
     check(input: unknown): number {
       return check<number>('number', input)
+    },
+  }
+}
+
+export function bigint(): Type<bigint> {
+  return {
+    check(input: unknown): bigint {
+      return check<bigint>('bigint', input)
+    },
+  }
+}
+
+export function symbol(): Type<symbol> {
+  return {
+    check(input: unknown): symbol {
+      return check<symbol>('symbol', input)
+    },
+  }
+}
+
+export function func(): Type<AnyFunction> {
+  return {
+    check<TType extends AnyFunction>(input: TType): TType {
+      return check<TType>('function', input)
+    },
+  }
+}
+
+export function nul(): Type<null> {
+  return {
+    check(input: unknown): null {
+      return check<null>('null', input)
+    },
+  }
+}
+
+export function undef(): Type<undefined> {
+  return {
+    check(input: unknown): undefined {
+      return check<undefined>('undefined', input)
     },
   }
 }
