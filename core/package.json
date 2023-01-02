@@ -2,9 +2,12 @@
   "name": "tosi",
   "version": "0.0.0",
   "description": "Type Safe Object Notation & Validation",
-  "scripts": {
-    "build": "tsup"
-  },
+  "keywords": [
+    "typescript",
+    "validation"
+  ],
+  "license": "MIT",
+  "author": "Elone Hoo <elonehoo@gmail.com> (https://github.com/elonehoo)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -18,12 +21,9 @@
   "files": [
     "dist"
   ],
-  "keywords": [
-    "typescript",
-    "validation"
-  ],
-  "author": "Elone Hoo <elonehoo@gmail.com> (https://github.com/elonehoo)",
-  "license": "MIT",
+  "scripts": {
+    "build": "tsup"
+  },
   "dependencies": {
     "tsup": "^6.5.0",
     "typescript": "^4.9.4",

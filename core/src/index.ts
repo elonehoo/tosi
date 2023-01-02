@@ -1,3 +1,3 @@
-export function life(){
+export function life() {
   return 42
 }

@@ -1,6 +1,6 @@
-import { expect, test } from "vitest";
-import * as t from "tosi";
+import { expect, test } from 'vitest'
+import * as t from 'tosi'
 
-test("life()", () => {
+test('life()', () => {
   expect(t.life()).toBe(42)
-});
+})
