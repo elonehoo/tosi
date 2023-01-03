@@ -8,9 +8,9 @@ export type CheckType =
   | 'symbol'
   | 'function'
   | 'null'
-  | "undefined"
-  | "array"
-  | "tuple";
+  | 'undefined'
+  | 'array'
+  | 'tuple'
 
 export interface Type<TReturn> { check(input: unknown): TReturn }
 export type Schema = Record<string, Type<unknown>>
@@ -21,7 +21,7 @@ export type AnyFunction = () => void
 
 export type UnwrapTuple<TType extends Type<unknown>[]> = {
   [Key in keyof TType]: InferType<TType[Key]>;
-};
+}
 
 export type Unwrap<TInput> = TInput extends Record<string, unknown>
   ? { [Key in keyof TInput]: TInput[Key] }

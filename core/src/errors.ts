@@ -7,7 +7,7 @@ export class TypeCheckError extends TypeError {
   readonly path: string[]
 
   constructor(expected: string, input: unknown, path: string[] = []) {
-    super(`expected '${expected}' got '${typeOf(input)}'`);
+    super(`expected '${expected}' got '${typeOf(input)}'`)
     this.expected = expected
     this.input = input
     this.path = path
@@ -15,31 +15,31 @@ export class TypeCheckError extends TypeError {
 }
 
 export class LengthMismatchError extends TypeError {
-  override name = "LengthMismatchError ";
-  readonly expected: number;
-  readonly input: number;
+  override name = 'LengthMismatchError '
+  readonly expected: number
+  readonly input: number
 
   constructor(expected: number, input: number) {
-    super(`expected length to be '${expected}' got '${input}'`);
-    this.expected = expected;
-    this.input = input;
+    super(`expected length to be '${expected}' got '${input}'`)
+    this.expected = expected
+    this.input = input
   }
 }
 
 export class ObjectTypeCheckError extends TypeCheckError {
-  override name = "ObjectTypeCheckError";
+  override name = 'ObjectTypeCheckError'
 
   constructor(expected: string, input: unknown, path: string[]) {
-    super(expected, input, path);
-    this.message += ` from '${path.join(".")}'`;
+    super(expected, input, path)
+    this.message += ` from '${path.join('.')}'`
   }
 }
 
 export class ArrayTypeCheckError extends TypeCheckError {
-  override name = "ArrayTypeCheckError";
+  override name = 'ArrayTypeCheckError'
 
   constructor(expected: string, input: unknown, path: string[]) {
-    super(expected, input, path);
-    this.message += ` at index '${path.join(".")}'`;
+    super(expected, input, path)
+    this.message += ` at index '${path.join('.')}'`
   }
 }
