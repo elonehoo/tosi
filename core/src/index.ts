@@ -5,7 +5,6 @@ import {
   TypeCheckError,
 } from './errors'
 import type {
-  AnyFunction,
   CheckType,
   InferTuple,
   InferType,
@@ -125,9 +124,9 @@ export function symbol(): Type<symbol> {
   }
 }
 
-export function func(): Type<AnyFunction> {
+export function func(): Type<Function> {
   return {
-    check<TType extends AnyFunction>(input: TType): TType {
+    check<TType extends Function>(input: TType): TType {
       return check<TType>('function', input)
     },
   }
@@ -193,7 +192,7 @@ export function optional<TType extends Type<InferType<TType>>>(
   return {
     ...type,
     check(input: unknown): InferType<TType> | undefined {
-      if (input === undefined)
+      if (typeof input === "undefined")
         return undefined
 
       return type.check(input)

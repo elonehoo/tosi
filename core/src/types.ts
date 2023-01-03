@@ -17,8 +17,6 @@ export type Schema = Record<string, Type<unknown>>
 export type ObjectType<TReturn> = Type<TReturn> & {
   schema: Schema
 }
-export type AnyFunction = () => void
-
 export type UnwrapTuple<TType extends Type<unknown>[]> = {
   [Key in keyof TType]: InferType<TType[Key]>;
 }
