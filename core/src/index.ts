@@ -192,7 +192,7 @@ export function optional<TType extends Type<InferType<TType>>>(
   return {
     ...type,
     check(input: unknown): InferType<TType> | undefined {
-      if (typeof input === "undefined")
+      if (typeof input === 'undefined')
         return undefined
 
       return type.check(input)

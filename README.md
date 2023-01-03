@@ -18,32 +18,32 @@ _`yarn` and `npm` also work_
 ## ES and CommonJS module
 
 ```ts
-import * as tosi from "tosi";
+import * as tosi from 'tosi'
 ```
 
 ```ts
-const tosi = require("tosi");
+const tosi = require('tosi')
 ```
 
 # Examples
 
 ```ts
 // ...
-import { string } from "tosi";
-const name = string();
-name.check("nyan"); // return "nyan"
-name.check(42); // throw TypeCheckError
+import { string } from 'tosi'
+const name = string()
+name.check('nyan') // return "nyan"
+name.check(42) // throw TypeCheckError
 ```
 
 ```ts
-import { object, string, number boolean } from "tosi";
+import { boolean, number, object, string } from 'tosi'
 const user = object({
   name: string(),
   age: number(),
   admin: boolean(),
-});
-user.check({ name: "nyan", age: 42, admin: true });
-type User = InferType<typeof user>;
+})
+user.check({ name: 'nyan', age: 42, admin: true })
+type User = InferType<typeof user>
 // { name: string, age: number, admin: boolean }
 ```
 
@@ -75,14 +75,14 @@ type User = InferType<typeof user>;
 # array(type)
 
 ```ts
-const arr1 = array(string()); // string[]
-const arr2 = array(boolean()); // boolean[]
+const arr1 = array(string()) // string[]
+const arr2 = array(boolean()) // boolean[]
 ```
 
 # tuple(...type)
 
 ```ts
-const tpl = tuple(string(), number()); // [string, number]
+const tpl = tuple(string(), number()) // [string, number]
 ```
 
 # object(object)
@@ -92,15 +92,15 @@ const user = object({
   name: string(),
   age: number(),
   admin: boolean(),
-});
-type User = InferType<typeof user>;
+})
+type User = InferType<typeof user>
 // { name: string, age: number, admin: boolean }
 ```
 
 # union(type[])
 
 ```ts
-const uni = union(string(), number()); // string | number
+const uni = union(string(), number()) // string | number
 ```
 
 # optional(type)
@@ -109,6 +109,6 @@ const uni = union(string(), number()); // string | number
 const user = object({
   name: string(),
   age: optional(number()),
-});
+})
 // { name: string, age?: number }
 ```

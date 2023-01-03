@@ -132,7 +132,7 @@ test('object(): with invalid input', () => {
   const input = { life: 42, name: ['prout'] }
   // @ts-expect-error input type not assignable
   expect(() => t.object(input).check(input)).toThrow(
-    'y.check is not a function',
+    's.check is not a function',
   )
 })
 
