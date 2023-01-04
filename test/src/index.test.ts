@@ -1,9 +1,9 @@
 import { expect, test } from 'vitest'
-import * as t from 'tosi'
+import {tosi} from 'tosi'
 
 test('array()', () => {
   const input = [1, 2, 3, 4, 5]
-  const schema = t.array(t.number())
+  const schema = tosi.array(tosi.number())
   expect(schema.check(input)).toBe(input)
   expect(() => schema.check([...input, '42'])).toThrow(
     'expected \'number\' got \'string\' at index \'5\'',
@@ -12,7 +12,7 @@ test('array()', () => {
 
 test('tuple()', () => {
   const input: [number, string, boolean, string] = [42, 'plop', true, '42']
-  const schema = t.tuple(t.number(), t.string(), t.boolean(), t.string())
+  const schema = tosi.tuple(tosi.number(), tosi.string(), tosi.boolean(), tosi.string())
   expect(schema.check(input)).toBe(input)
   expect(() => schema.check([42, 24, true, '42'])).toThrow(
     'expected \'string\' got \'number\' at index \'1\'',
@@ -26,88 +26,90 @@ test('tuple()', () => {
 })
 
 test('bigint()', () => {
-  expect(t.bigint().check(42n)).toBe(42n)
-  expect(t.bigint().check(BigInt(42))).toBe(42n)
-  expect(t.bigint().check(BigInt(42))).toBe(BigInt(42))
-  expect(() => t.bigint().check('42')).toThrow(
+  expect(tosi.bigint().check(42n)).toBe(42n)
+  expect(tosi.bigint().check(BigInt(42))).toBe(42n)
+  expect(tosi.bigint().check(BigInt(42))).toBe(BigInt(42))
+  expect(() => tosi.bigint().check('42')).toThrow(
     'expected \'bigint\' got \'string\'',
   )
 })
 
 test('symbol()', () => {
   const sym = Symbol(42)
-  expect(t.symbol().check(sym)).toBe(sym)
-  expect(() => t.symbol().check(42)).toThrow('expected \'symbol\' got \'number\'')
+  expect(tosi.symbol().check(sym)).toBe(sym)
+  expect(() => tosi.symbol().check(42)).toThrow('expected \'symbol\' got \'number\'')
 })
 
 test('func()', () => {
   const f = (p: string) => p
-  expect(t.func().check(f)).toBe(f)
-  expect(() => t.func().check(42)).toThrow('expected \'function\' got \'number\'')
+  expect(tosi.function().check(f)).toBe(f);
+  expect(() => tosi.function().check(42)).toThrow(
+    "expected 'function' got 'number'",
+  );
 })
 
 test('nul()', () => {
-  expect(t.nul().check(null)).toBe(null)
-  expect(() => t.nul().check(0)).toThrow('expected \'null\' got \'number\'')
-  expect(() => t.nul().check(undefined)).toThrow(
+  expect(tosi.null().check(null)).toBe(null)
+  expect(() => tosi.null().check(0)).toThrow('expected \'null\' got \'number\'')
+  expect(() => tosi.null().check(undefined)).toThrow(
     'expected \'null\' got \'undefined\'',
   )
 })
 
 test('undef()', () => {
-  expect(t.undef().check(undefined)).toBe(undefined)
-  expect(() => t.undef().check(null)).toThrow(
+  expect(tosi.undefined().check(undefined)).toBe(undefined)
+  expect(() => tosi.undefined().check(null)).toThrow(
     'expected \'undefined\' got \'null\'',
   )
-  expect(() => t.undef().check(0)).toThrow('expected \'undefined\' got \'number\'')
+  expect(() => tosi.undefined().check(0)).toThrow('expected \'undefined\' got \'number\'')
 })
 
 test('unknown()', () => {
-  expect(t.unknown().check(42)).toBe(42)
+  expect(tosi.unknown().check(42)).toBe(42)
 })
 
 test('string()', () => {
-  expect(t.string().check('42')).toBe('42')
-  expect(() => t.string().check(42)).toThrow('expected \'string\' got \'number\'')
+  expect(tosi.string().check('42')).toBe('42')
+  expect(() => tosi.string().check(42)).toThrow('expected \'string\' got \'number\'')
 })
 
 test('number()', () => {
-  expect(t.number().check(42)).toBe(42)
-  expect(() => t.number().check('42')).toThrow(
+  expect(tosi.number().check(42)).toBe(42)
+  expect(() => tosi.number().check('42')).toThrow(
     'expected \'number\' got \'string\'',
   )
 })
 
 test('boolean()', () => {
-  expect(t.boolean().check(40 + 2 === 42)).toBe(true)
-  expect(() => t.boolean().check(Symbol(42))).toThrow(
+  expect(tosi.boolean().check(40 + 2 === 42)).toBe(true)
+  expect(() => tosi.boolean().check(Symbol(42))).toThrow(
     'expected \'boolean\' got \'symbol\'',
   )
 })
 
 test('object()', () => {
   const input = { life: 42, name: 'prout' }
-  const schema = { life: t.number(), name: t.string() }
-  expect(t.object(schema).check(input)).toBe(input)
-  expect(() => t.object(schema).check(Error)).toThrow(
+  const schema = { life: tosi.number(), name: tosi.string() }
+  expect(tosi.object(schema).check(input)).toBe(input)
+  expect(() => tosi.object(schema).check(Error)).toThrow(
     'expected \'object\' got \'function\'',
   )
 })
 
 test('object(): with error on first level', () => {
   const input = { life: 42, name: ['prout'] }
-  const schema = { life: t.number(), name: t.string() }
-  expect(() => t.object(schema).check(input)).toThrow(
+  const schema = { life: tosi.number(), name: tosi.string() }
+  expect(() => tosi.object(schema).check(input)).toThrow(
     'expected \'string\' got \'array\' from \'name\'',
   )
 })
 
 test('object(): with two levels', () => {
   const input = { life: 42, name: 'prout', data: { size: 24, verbose: true } }
-  const schema = t.object({
-    life: t.number(),
-    name: t.string(),
-    data: t.object({ size: t.number(), verbose: t.boolean() }),
+  const schema = tosi.object({
+    life: tosi.number(),
+    name: tosi.string(),
+    data: tosi.object({ size: tosi.number(), verbose: tosi.boolean() }),
   })
   expect(schema.check(input)).toBe(input)
 })
@@ -118,10 +120,10 @@ test('object(): with error on second level', () => {
     name: 'prout',
     data: { size: 24, verbose: 'true' },
   }
-  const schema = t.object({
-    life: t.number(),
-    name: t.string(),
-    data: t.object({ size: t.number(), verbose: t.boolean() }),
+  const schema = tosi.object({
+    life: tosi.number(),
+    name: tosi.string(),
+    data: tosi.object({ size: tosi.number(), verbose: tosi.boolean() }),
   })
   expect(() => schema.check(input)).toThrow(
     'expected \'boolean\' got \'string\' from \'data.verbose\'',
@@ -132,12 +134,12 @@ test('object(): with invalid input', () => {
   const input = { life: 42, name: ['prout'] }
   // @ts-expect-error input type not assignable
   expect(() => t.object(input).check(input)).toThrow(
-    's.check is not a function',
+    't is not defined',
   )
 })
 
 test('optional(string())', () => {
-  const optional = t.optional(t.string())
+  const optional = tosi.optional(tosi.string())
   expect(optional.check('42')).toBe('42')
   expect(optional.check(undefined)).toBe(undefined)
   expect(() => optional.check(42)).toThrow('expected \'string\' got \'number\'')
@@ -145,10 +147,10 @@ test('optional(string())', () => {
 })
 
 test('union()', () => {
-  const str = t.string()
-  const num = t.number()
-  const boo = t.boolean()
-  const uni = t.union([str, num, boo, str])
+  const str = tosi.string()
+  const num = tosi.number()
+  const boo = tosi.boolean()
+  const uni = tosi.union([str, num, boo, str])
   expect(uni.check(42)).toBe(42)
   expect(uni.check('42')).toBe('42')
   expect(uni.check(40 + 2 === 42)).toBe(true)
@@ -161,10 +163,10 @@ test('union()', () => {
 })
 
 test('union(): with optional', () => {
-  const str = t.string()
-  const num = t.number()
-  const boo = t.boolean()
-  const uni = t.optional(t.union([str, num, boo]))
+  const str = tosi.string()
+  const num = tosi.number()
+  const boo = tosi.boolean()
+  const uni = tosi.optional(tosi.union([str, num, boo]))
   expect(uni.check(undefined)).toBe(undefined)
   expect(() => uni.check(null)).toThrow(
     'expected \'string|number|boolean\' got \'null\'',
@@ -172,12 +174,12 @@ test('union(): with optional', () => {
 })
 
 test('union(): with optional in object', () => {
-  const str = t.string()
-  const num = t.number()
-  const boo = t.boolean()
-  const obj = t.object({
-    name: t.string(),
-    desc: t.optional(t.union([str, num, boo])),
+  const str = tosi.string()
+  const num = tosi.number()
+  const boo = tosi.boolean()
+  const obj = tosi.object({
+    name: tosi.string(),
+    desc: tosi.optional(tosi.union([str, num, boo])),
   })
   let input: object = { name: 'nyan' }
   expect(obj.check(input)).toBe(input)
