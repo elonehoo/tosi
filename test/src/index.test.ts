@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import {tosi} from 'tosi'
+import { tosi } from 'tosi'
 
 test('array()', () => {
   const input = [1, 2, 3, 4, 5]
@@ -42,10 +42,10 @@ test('symbol()', () => {
 
 test('func()', () => {
   const f = (p: string) => p
-  expect(tosi.function().check(f)).toBe(f);
+  expect(tosi.function().check(f)).toBe(f)
   expect(() => tosi.function().check(42)).toThrow(
-    "expected 'function' got 'number'",
-  );
+    'expected \'function\' got \'number\'',
+  )
 })
 
 test('nul()', () => {
