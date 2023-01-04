@@ -10,6 +10,12 @@ test('array()', () => {
   )
 })
 
+test("array() invalid input", () => {
+  // @ts-expect-error invalid input
+  const schema = tosi.array(true);
+  expect(() => schema.check(["42"])).toThrow("e.check is not a function");
+});
+
 test('tuple()', () => {
   const input: [number, string, boolean, string] = [42, 'plop', true, '42']
   const schema = tosi.tuple(tosi.number(), tosi.string(), tosi.boolean(), tosi.string())
@@ -24,6 +30,13 @@ test('tuple()', () => {
     'expected length to be \'4\' got \'3\'',
   )
 })
+
+test("tuple() invalid input", () => {
+  // @ts-expect-error invalid input
+  const schema = tosi.tuple(true);
+  expect(() => schema.check(["42"])).toThrow("n.check is not a function");
+});
+
 
 test('bigint()', () => {
   expect(tosi.bigint().check(42n)).toBe(42n)

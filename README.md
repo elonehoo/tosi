@@ -1,11 +1,12 @@
-# tois
+# tosi
 
-Type Safe Object Notation...
+Type Safe Object Notation & Validation
 
 # Features
 
-- fonctional
-- immutable
+- 🧱 Fonctional
+- 🔷 Immutable
+- ✅ Well tested
 
 # Install
 
