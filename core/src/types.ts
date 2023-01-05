@@ -1,4 +1,4 @@
-export type CheckType =
+export type ParseType =
   | 'unknown'
   | 'string'
   | 'number'
@@ -12,7 +12,7 @@ export type CheckType =
   | 'array'
   | 'tuple'
 
-export interface Type<TReturn> { check(input: unknown): TReturn }
+export interface Type<TReturn> { parse(input: unknown): TReturn }
 export type Schema = Record<string, Type<unknown>>
 export type ObjectType<TReturn> = Type<TReturn> & {
   schema: Schema
@@ -73,7 +73,7 @@ export type EnumOrFirstValue = string | string[] | EnumValues | EnumLike
 export interface EnumType<TType, TValues, TUnion> {
   enum: TType
   options: TValues
-  check(input: unknown): TUnion
+  parse(input: unknown): TUnion
 }
 
 export type StringEnumRecord<TValues extends EnumValues> = {
