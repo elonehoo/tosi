@@ -1,5 +1,15 @@
 import { TypeParseError } from './errors'
-import type { ParseType } from './types'
+import type { ClassLike, ParseType } from './types'
+
+export function instanceOf<TType extends ClassLike>(
+  type: TType,
+  input: unknown,
+): TType {
+  if (input instanceof type)
+    return input as TType
+
+  throw new TypeParseError(type.name, input)
+}
 
 export function parse<TReturn>(type: ParseType, input: unknown): TReturn {
   if (typeOf(input) === type)

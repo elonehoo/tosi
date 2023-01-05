@@ -23,6 +23,8 @@ export type Literal =
   | null
   | undefined
 
+export type ClassLike = new (...args: unknown[]) => unknown
+
 export type LiteralType<TReturn> = Type<TReturn> & {
   value: TReturn
 }

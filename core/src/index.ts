@@ -5,6 +5,7 @@ import {
   TypeParseError,
 } from './errors'
 import type {
+  ClassLike,
   EnumKey,
   EnumLike,
   EnumOrFirstValue,
@@ -22,7 +23,32 @@ import type {
   UnwrapSchema,
   UnwrapTuple,
 } from './types'
-import { parse, typeOf } from './util'
+import { instanceOf, parse, typeOf } from './util'
+
+function instanceOfType<TType extends ClassLike>(type: TType): Type<TType> {
+  return {
+    parse(input: unknown): TType {
+      return instanceOf<TType>(type, input)
+    },
+  }
+}
+
+function dateType(): Type<DateConstructor | string> {
+  return {
+    parse(input: unknown): DateConstructor | string {
+      if (typeof input === 'string') {
+        const maybeDate = new Date(input)
+
+        if (Number.isNaN(input) || maybeDate.toString() === 'Invalid Date')
+          throw new TypeParseError('Date', input)
+
+        return input
+      }
+
+      return instanceOf<DateConstructor>(Date, input)
+    },
+  }
+}
 
 function nanType(): Type<number> {
   return {
@@ -437,6 +463,8 @@ export const tosi = {
   uinteger: unsignedIntegerType,
   uint: unsignedIntegerType,
   unsignedNumber: unsignedNumberType,
+  instanceof: instanceOfType,
+  date: dateType,
   unumber: unsignedNumberType,
   nativeEnum: nativeEnumType,
 }

@@ -1,6 +1,33 @@
 import { expect, test } from 'vitest'
 import { tosi } from 'tosi'
 
+test('instanceof()', () => {
+  class MyClass {}
+  const instance = new MyClass()
+  expect(tosi.instanceof(MyClass).parse(instance)).toBe(instance)
+  expect(() => tosi.instanceof(MyClass).parse(new Date())).toThrow(
+    'expected \'MyClass\' got \'object\'',
+  )
+})
+
+test('date() Date', () => {
+  const date = new Date()
+  expect(tosi.date().parse(date)).toBe(date)
+  expect(() => tosi.date().parse(Date)).toThrow('expected \'Date\' got \'function\'')
+  expect(() => tosi.date().parse(Date.now())).toThrow(
+    'expected \'Date\' got \'number\'',
+  )
+})
+
+test('date() string', () => {
+  const date = '2022-03-11T09:28:00.575Z'
+  expect(tosi.date().parse(date)).toBe(date)
+  expect(() => tosi.date().parse('Date')).toThrow('expected \'Date\' got \'string\'')
+  expect(() => tosi.date().parse(Date.now())).toThrow(
+    'expected \'Date\' got \'number\'',
+  )
+})
+
 test('nan()', () => {
   expect(tosi.nan().parse(NaN)).toBe(NaN)
   expect(tosi.nan().parse(Number('forty-two'))).toBe(NaN)
@@ -194,7 +221,7 @@ test('tuple()', () => {
 test('tuple() invalid input', () => {
   // @ts-expect-error invalid input
   const schema = tosi.tuple(true)
-  expect(() => schema.parse(['42'])).toThrow('n.parse is not a function')
+  expect(() => schema.parse(['42'])).toThrow('r.parse is not a function')
 })
 
 test('bigint()', () => {
