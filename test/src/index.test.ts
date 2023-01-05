@@ -1,6 +1,99 @@
 import { expect, test } from 'vitest'
 import { tosi } from 'tosi'
 
+test('nan()', () => {
+  expect(tosi.nan().parse(NaN)).toBe(NaN)
+  expect(tosi.nan().parse(Number('forty-two'))).toBe(NaN)
+  expect(() => tosi.nan().parse(0)).toThrow('expected \'NaN\' got \'number\'')
+  expect(() => tosi.nan().parse(null)).toThrow('expected \'NaN\' got \'null\'')
+  expect(() => tosi.nan().parse(Infinity)).toThrow(
+    'expected \'NaN\' got \'Infinity\'',
+  )
+})
+
+test('infinity()', () => {
+  expect(tosi.infinity().parse(Infinity)).toBe(Infinity)
+  expect(tosi.infinity().parse(-Infinity)).toBe(-Infinity)
+  expect(tosi.infinity().parse(Number.MAX_VALUE * 42)).toBe(Infinity)
+  expect(() => tosi.infinity().parse(0)).toThrow(
+    'expected \'Infinity\' got \'number\'',
+  )
+  expect(() => tosi.infinity().parse(null)).toThrow(
+    'expected \'Infinity\' got \'null\'',
+  )
+})
+
+test('finite()', () => {
+  expect(tosi.finite().parse(0)).toBe(0)
+  expect(tosi.finite().parse(42)).toBe(42)
+  expect(tosi.finite().parse(-42)).toBe(-42)
+  expect(tosi.finite().parse(+42.42)).toBe(+42.42)
+  expect(tosi.finite().parse(-42.42)).toBe(-42.42)
+  expect(() => tosi.finite().parse(42n)).toThrow(
+    'expected \'finite number\' got \'bigint\'',
+  )
+  expect(() => tosi.finite().parse(null)).toThrow(
+    'expected \'finite number\' got \'null\'',
+  )
+  expect(() => tosi.finite().parse(Infinity)).toThrow(
+    'expected \'finite number\' got \'Infinity\'',
+  )
+})
+
+test('integer()', () => {
+  expect(tosi.integer().parse(0)).toBe(0)
+  expect(tosi.integer().parse(42)).toBe(42)
+  expect(tosi.integer().parse(-42)).toBe(-42)
+  expect(() => tosi.integer().parse(42n)).toThrow(
+    'expected \'integer\' got \'bigint\'',
+  )
+  expect(() => tosi.integer().parse(null)).toThrow(
+    'expected \'integer\' got \'null\'',
+  )
+  expect(() => tosi.integer().parse(Infinity)).toThrow(
+    'expected \'integer\' got \'Infinity\'',
+  )
+})
+
+test('unsignedInteger()', () => {
+  expect(tosi.unsignedInteger().parse(0)).toBe(0)
+  expect(tosi.unsignedInteger().parse(42)).toBe(42)
+  expect(() => tosi.unsignedInteger().parse(-42)).toThrow(
+    'expected \'unsigned integer\' got \'number\'',
+  )
+  expect(() => tosi.unsignedInteger().parse(0.1)).toThrow(
+    'expected \'unsigned integer\' got \'number\'',
+  )
+  expect(() => tosi.unsignedInteger().parse(42n)).toThrow(
+    'expected \'unsigned integer\' got \'bigint\'',
+  )
+  expect(() => tosi.unsignedInteger().parse(null)).toThrow(
+    'expected \'unsigned integer\' got \'null\'',
+  )
+  expect(() => tosi.unsignedInteger().parse(Infinity)).toThrow(
+    'expected \'unsigned integer\' got \'Infinity\'',
+  )
+})
+
+test('unsignedNumber()', () => {
+  expect(tosi.unsignedNumber().parse(0)).toBe(0)
+  expect(tosi.unsignedNumber().parse(42)).toBe(42)
+  expect(tosi.unsignedNumber().parse(0.1)).toBe(0.1)
+  expect(tosi.unsignedNumber().parse(42.42)).toBe(42.42)
+  expect(() => tosi.unsignedNumber().parse(-42)).toThrow(
+    'expected \'unsigned number\' got \'number\'',
+  )
+  expect(() => tosi.unsignedNumber().parse(42n)).toThrow(
+    'expected \'unsigned number\' got \'bigint\'',
+  )
+  expect(() => tosi.unsignedNumber().parse(null)).toThrow(
+    'expected \'unsigned number\' got \'null\'',
+  )
+  expect(() => tosi.unsignedNumber().parse(Infinity)).toThrow(
+    'expected \'unsigned number\' got \'Infinity\'',
+  )
+})
+
 test('literal(boolean)', () => {
   const literal = tosi.literal(true)
   expect(literal.parse(true)).toBe(true)

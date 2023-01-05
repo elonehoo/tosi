@@ -24,6 +24,70 @@ import type {
 } from './types'
 import { parse, typeOf } from './util'
 
+function nanType(): Type<number> {
+  return {
+    parse(input: unknown): number {
+      return parse<number>('NaN', input)
+    },
+  }
+}
+
+function infinityType(): Type<number> {
+  return {
+    parse(input: unknown): number {
+      return parse<number>('Infinity', input)
+    },
+  }
+}
+
+function finiteType(): Type<number> {
+  return {
+    parse(input: unknown): number {
+      if (Number.isFinite(input) === false)
+        throw new TypeParseError('finite number', input)
+
+      return input as number
+    },
+  }
+}
+
+function integerType(): Type<number> {
+  return {
+    parse(input: unknown): number {
+      if (Number.isInteger(input) === false)
+        throw new TypeParseError('integer', input)
+
+      return input as number
+    },
+  }
+}
+
+function unsignedIntegerType(): Type<number> {
+  return {
+    parse(input: unknown): number {
+      const value = input as number
+
+      if (Number.isInteger(value) === false || value < 0)
+        throw new TypeParseError('unsigned integer', input)
+
+      return input as number
+    },
+  }
+}
+
+function unsignedNumberType(): Type<number> {
+  return {
+    parse(input: unknown): number {
+      const value = input as number
+
+      if (Number.isFinite(value) === false || value < 0)
+        throw new TypeParseError('unsigned number', input)
+
+      return input as number
+    },
+  }
+}
+
 function literalType<TType extends Literal>(value: TType): LiteralType<TType> {
   const schema = unionType([
     stringType(),
@@ -364,5 +428,15 @@ export const tosi = {
   optional: optionalType,
   union: unionType,
   enum: enumType,
+  nan: nanType,
+  infinity: infinityType,
+  finite: finiteType,
+  integer: integerType,
+  int: integerType,
+  unsignedInteger: unsignedIntegerType,
+  uinteger: unsignedIntegerType,
+  uint: unsignedIntegerType,
+  unsignedNumber: unsignedNumberType,
+  unumber: unsignedNumberType,
   nativeEnum: nativeEnumType,
 }

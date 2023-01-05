@@ -11,6 +11,8 @@ export type ParseType =
   | 'undefined'
   | 'array'
   | 'tuple'
+  | 'NaN'
+  | 'Infinity'
 
 export type Literal =
   | boolean

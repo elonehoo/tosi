@@ -18,5 +18,12 @@ export function typeOf(input: unknown): string {
   if (Array.isArray(input))
     return 'array'
 
+  if (typeof input === 'number') {
+    if (Number.isNaN(input))
+      return 'NaN'
+
+    if (Number.isFinite(input) === false)
+      return 'Infinity'
+  }
   return typeof input
 }
