@@ -165,14 +165,12 @@ test('literal(undefined)', () => {
 })
 
 test('literal(...) invalid value', () => {
-  // @ts-expect-error invalid value
   expect(() => tosi.literal([42])).toThrow(
     'expected \'string|number|bigint|boolean|symbol|null|undefined\' got \'array\'',
   )
 })
 
 test('void()', () => {
-  // @ts-expect-error no parse value
   expect(tosi.void().parse()).toBe(undefined)
   expect(tosi.void().parse(undefined)).toBe(undefined)
   expect(() => tosi.void().parse(null)).toThrow('expected \'undefined\' got \'null\'')
@@ -184,7 +182,6 @@ test('any()', () => {
 })
 
 test('never()', () => {
-  // @ts-expect-error no parse value
   expect(() => tosi.never().parse()).toThrow('expected \'never\' got \'undefined\'')
 })
 
@@ -198,7 +195,6 @@ test('array()', () => {
 })
 
 test('array() invalid input', () => {
-  // @ts-expect-error invalid input
   const schema = tosi.array(true)
   expect(() => schema.parse(['42'])).toThrow('e.parse is not a function')
 })
@@ -219,7 +215,6 @@ test('tuple()', () => {
 })
 
 test('tuple() invalid input', () => {
-  // @ts-expect-error invalid input
   const schema = tosi.tuple(true)
   expect(() => schema.parse(['42'])).toThrow('r.parse is not a function')
 })
@@ -331,9 +326,8 @@ test('object(): with error on second level', () => {
 
 test('object(): with invalid input', () => {
   const input = { life: 42, name: ['prout'] }
-  // @ts-expect-error input type not assignable
   expect(() => tosi.object(input).parse(input)).toThrow(
-    'T.parse is not a function',
+    's.parse is not a function',
   )
 })
 
@@ -341,8 +335,36 @@ test('optional(string())', () => {
   const optional = tosi.optional(tosi.string())
   expect(optional.parse('42')).toBe('42')
   expect(optional.parse(undefined)).toBe(undefined)
-  expect(() => optional.parse(42)).toThrow('expected \'string\' got \'number\'')
-  expect(() => optional.parse(null)).toThrow('expected \'string\' got \'null\'')
+  expect(() => optional.parse(42)).toThrow(
+    'expected \'string|undefined\' got \'number\'',
+  )
+  expect(() => optional.parse(null)).toThrow(
+    'expected \'string|undefined\' got \'null\'',
+  )
+})
+
+test('optional(): with invalid input', () => {
+  expect(() => tosi.optional(42).parse(42)).toThrow(
+    'e.parse is not a function',
+  )
+})
+
+test('nullable(string())', () => {
+  const nullable = tosi.nullable(tosi.string())
+  expect(nullable.parse('42')).toBe('42')
+  expect(nullable.parse(null)).toBe(null)
+  expect(() => nullable.parse([42])).toThrow(
+    'expected \'string|null\' got \'array\'',
+  )
+  expect(() => nullable.parse(0)).toThrow(
+    'expected \'string|null\' got \'number\'',
+  )
+})
+
+test('nullable(): with invalid input', () => {
+  expect(() => tosi.nullable(42).parse(42)).toThrow(
+    'e.parse is not a function',
+  )
 })
 
 test('union()', () => {
@@ -368,7 +390,7 @@ test('union(): with optional', () => {
   const uni = tosi.optional(tosi.union([str, num, boo]))
   expect(uni.parse(undefined)).toBe(undefined)
   expect(() => uni.parse(null)).toThrow(
-    'expected \'string|number|boolean\' got \'null\'',
+    'expected \'string|number|boolean|undefined\' got \'null\'',
   )
 })
 
@@ -390,6 +412,6 @@ test('union(): with optional in object', () => {
   expect(obj.parse(input)).toBe(input)
   input = { name: 'nyan', desc: Symbol(42) }
   expect(() => obj.parse(input)).toThrow(
-    'expected \'string|number|boolean\' got \'symbol\'',
+    'expected \'string|number|boolean|undefined\' got \'symbol\' from \'desc\'',
   )
 })
