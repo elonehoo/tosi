@@ -13,6 +13,8 @@ import type {
   FakeEnum,
   InferTuple,
   InferType,
+  Literal,
+  LiteralType,
   ObjectType,
   Schema,
   Type,
@@ -20,7 +22,33 @@ import type {
   UnwrapSchema,
   UnwrapTuple,
 } from './types'
-import { parse } from './util'
+import { parse, typeOf } from './util'
+
+function literalType<TType extends Literal>(value: TType): LiteralType<TType> {
+  const schema = unionType([
+    stringType(),
+    numberType(),
+    bigintType(),
+    booleanType(),
+    symbolType(),
+    nullType(),
+    undefinedType(),
+  ])
+
+  schema.parse(value)
+
+  return {
+    value,
+    parse(input: unknown): TType {
+      schema.parse(input)
+
+      if (input !== value)
+        throw new TypeParseError(typeOf(value), input)
+
+      return input as TType
+    },
+  }
+}
 
 function neverType(): Type<never> {
   return {
@@ -322,6 +350,7 @@ export const tosi = {
   any: unknownType,
   void: undefinedType,
   string: stringType,
+  literal: literalType,
   number: numberType,
   boolean: booleanType,
   bigint: bigintType,

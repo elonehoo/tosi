@@ -12,6 +12,19 @@ export type ParseType =
   | 'array'
   | 'tuple'
 
+export type Literal =
+  | boolean
+  | string
+  | number
+  | bigint
+  | symbol
+  | null
+  | undefined
+
+export type LiteralType<TReturn> = Type<TReturn> & {
+  value: TReturn
+}
+
 export interface Type<TReturn> { parse(input: unknown): TReturn }
 export type Schema = Record<string, Type<unknown>>
 export type ObjectType<TReturn> = Type<TReturn> & {
