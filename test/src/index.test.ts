@@ -1,6 +1,23 @@
 import { expect, test } from 'vitest'
 import { tosi } from 'tosi'
 
+test('void()', () => {
+  // @ts-expect-error no check value
+  expect(tosi.void().check()).toBe(undefined)
+  expect(tosi.void().check(undefined)).toBe(undefined)
+  expect(() => tosi.void().check(null)).toThrow('expected \'undefined\' got \'null\'')
+  expect(() => tosi.void().check(0)).toThrow('expected \'undefined\' got \'number\'')
+})
+
+test('any()', () => {
+  expect(tosi.any().check(42)).toBe(42)
+})
+
+test('never()', () => {
+  // @ts-expect-error no check value
+  expect(() => tosi.never().check()).toThrow('expected \'never\' got \'undefined\'')
+})
+
 test('array()', () => {
   const input = [1, 2, 3, 4, 5]
   const schema = tosi.array(tosi.number())
@@ -52,7 +69,7 @@ test('symbol()', () => {
   expect(() => tosi.symbol().check(42)).toThrow('expected \'symbol\' got \'number\'')
 })
 
-test('func()', () => {
+test('function()', () => {
   const f = (p: string) => p
   expect(tosi.function().check(f)).toBe(f)
   expect(() => tosi.function().check(42)).toThrow(
@@ -60,7 +77,7 @@ test('func()', () => {
   )
 })
 
-test('nul()', () => {
+test('null()', () => {
   expect(tosi.null().check(null)).toBe(null)
   expect(() => tosi.null().check(0)).toThrow('expected \'null\' got \'number\'')
   expect(() => tosi.null().check(undefined)).toThrow(
@@ -68,7 +85,7 @@ test('nul()', () => {
   )
 })
 
-test('undef()', () => {
+test('undefined()', () => {
   expect(tosi.undefined().check(undefined)).toBe(undefined)
   expect(() => tosi.undefined().check(null)).toThrow(
     'expected \'undefined\' got \'null\'',

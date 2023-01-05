@@ -22,6 +22,14 @@ import type {
 } from './types'
 import { check } from './util'
 
+function neverType(): Type<never> {
+  return {
+    check(input: unknown): never {
+      throw new TypeCheckError('never', input)
+    },
+  }
+}
+
 function arrayType<TType extends Type<unknown>>(
   type: TType,
 ): Type<InferType<TType>[]> {
@@ -309,7 +317,10 @@ function nativeEnumType<
 }
 
 export const tosi = {
+  never: neverType,
   unknown: unknownType,
+  any: unknownType,
+  void: undefinedType,
   string: stringType,
   number: numberType,
   boolean: booleanType,
