@@ -20,12 +20,12 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.2"
   },
   "devDependencies": {
     "@elonehoo/eslint-config": "^2.0.0",
     "@elonehoo/rimraf": "^0.0.1",
-    "bumpp": "^8.2.1",
-    "eslint": "^8.33.0"
+    "bumpp": "^9.0.0",
+    "eslint": "^8.36.0"
   }
 }
