@@ -16,10 +16,10 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "c8": "^7.13.0",
+    "c8": "^8.0.0",
     "tosi": "workspace:*",
-    "typescript": "^5.0.4",
-    "vite": "^4.3.8",
-    "vitest": "^0.31.1"
+    "typescript": "^5.1.6",
+    "vite": "^4.3.9",
+    "vitest": "^0.32.4"
   }
 }
