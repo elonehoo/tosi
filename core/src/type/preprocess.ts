@@ -1,4 +1,4 @@
-import { InferType, Type } from "../types";
+import type { InferType, Type } from '../types'
 
 export function preprocessType<
   TFunc extends (input: unknown) => unknown,
@@ -7,7 +7,7 @@ export function preprocessType<
   return {
     ...type,
     parse(input: unknown) {
-      return type.parse(filter(input));
+      return type.parse(filter(input))
     },
-  };
+  }
 }

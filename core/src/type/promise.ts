@@ -1,6 +1,6 @@
-import { TypeParseError } from "../errors";
-import { InferType, Type } from "../types";
-import { helpers } from "../helpers";
+import { TypeParseError } from '../errors'
+import type { InferType, Type } from '../types'
+import { helpers } from '../helpers'
 
 export function promiseType<TType extends Type<unknown>>(
   type: TType,
@@ -12,13 +12,13 @@ export function promiseType<TType extends Type<unknown>>(
         return new Promise<InferType<TType>>((resolve, reject) => {
           input
             .then((value) => {
-              resolve(type.parse(value) as InferType<TType>);
+              resolve(type.parse(value) as InferType<TType>)
             })
-            .catch(reject);
-        });
+            .catch(reject)
+        })
       }
 
-      return Promise.reject(new TypeParseError("Promise", input));
+      return Promise.reject(new TypeParseError('Promise', input))
     },
-  };
+  }
 }

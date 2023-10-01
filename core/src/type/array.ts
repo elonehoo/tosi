@@ -1,7 +1,7 @@
-import { ArrayTypeParseError, TypeParseError } from "../errors";
-import { InferType, Type } from "../types";
-import { helpers } from "../helpers";
-import { parse } from "../util";
+import { ArrayTypeParseError, TypeParseError } from '../errors'
+import type { InferType, Type } from '../types'
+import { helpers } from '../helpers'
+import { parse } from '../util'
 
 export function arrayType<TType extends Type<unknown>>(
   type: TType,
@@ -9,25 +9,26 @@ export function arrayType<TType extends Type<unknown>>(
   return {
     ...helpers(),
     parse(input: unknown[]): InferType<TType>[] {
-      parse<InferType<TType>[]>("array", input);
+      parse<InferType<TType>[]>('array', input)
 
-      let lastId = 0;
+      let lastId = 0
 
       try {
         input.forEach((value, id) => {
-          lastId = id;
-          type.parse(value);
-        });
-      } catch (error) {
+          lastId = id
+          type.parse(value)
+        })
+      }
+      catch (error) {
         if (error instanceof TypeParseError) {
-          const path = [lastId.toString(), ...error.path];
-          throw new ArrayTypeParseError(error.expected, error.input, path);
+          const path = [lastId.toString(), ...error.path]
+          throw new ArrayTypeParseError(error.expected, error.input, path)
         }
 
-        throw error;
+        throw error
       }
 
-      return input as InferType<TType>[];
+      return input as InferType<TType>[]
     },
-  };
+  }
 }

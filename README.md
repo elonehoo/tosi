@@ -19,36 +19,36 @@ _`yarn` and `npm` also work_
 ## ES and CommonJS module
 
 ```ts
-import { t } from "tosi";
+import { t } from 'tosi'
 ```
 
 ```ts
-const { t } = require("tosi");
+const { t } = require('tosi')
 ```
 
 # Examples
 
 ```ts
-import { t } from "tosi";
+import { t } from 'tosi'
 
-const name = t.string();
+const name = t.string()
 
-name.parse("nyan"); // return "nyan"
-name.parse(42); // throw TypeCheckError
+name.parse('nyan') // return "nyan"
+name.parse(42) // throw TypeCheckError
 ```
 
 ```ts
-import { t } from "tosi";
+import { t } from 'tosi'
 
 const user = t.object({
   name: t.string(),
   age: t.number(),
   admin: t.boolean(),
-});
+})
 
-user.parse({ name: "nyan", age: 42, admin: true });
+user.parse({ name: 'nyan', age: 42, admin: true })
 
-type User = t.infer<typeof user>;
+type User = t.infer<typeof user>
 // { name: string, age: number, admin: boolean }
 ```
 
@@ -137,87 +137,87 @@ By default `tosi` parse objects in `STRICT` mode, this means that all undefined 
 ### Primitive types
 
 ```ts
-t.string();
-t.number();
-t.bigint();
-t.boolean();
-t.symbol();
-t.date();
+t.string()
+t.number()
+t.bigint()
+t.boolean()
+t.symbol()
+t.date()
 ```
 
 ### Numbers types
 
 ```ts
-t.nan();
-t.finite();
-t.infinity();
-t.integer(); // Alias: int()
-t.unsignedNumber(); // Alias: unumber()
-t.unsignedInteger(); // Alias: uinteger(), uint()
+t.nan()
+t.finite()
+t.infinity()
+t.integer() // Alias: int()
+t.unsignedNumber() // Alias: unumber()
+t.unsignedInteger() // Alias: uinteger(), uint()
 ```
 
 ### Empty types
 
 ```ts
-t.undefined();
-t.null();
-t.void();
+t.undefined()
+t.null()
+t.void()
 ```
 
 ### Catch-all types
 
 ```ts
-t.any();
-t.unknown();
+t.any()
+t.unknown()
 ```
 
 ### Never type
 
 ```ts
-t.never();
+t.never()
 ```
 
 ## literal(value)
 
 ```ts
-const life = t.literal(42);
-const love = t.literal(true);
-const name = t.literal("nyan");
+const life = t.literal(42)
+const love = t.literal(true)
+const name = t.literal('nyan')
 
-life.value; // type => 42
+life.value // type => 42
 ```
 
 ## array(type)
 
 ```ts
-const arr1 = t.array(t.string()); // string[]
-const arr2 = t.array(t.boolean()); // boolean[]
+const arr1 = t.array(t.string()) // string[]
+const arr2 = t.array(t.boolean()) // boolean[]
 ```
 
 ## tuple(...type)
 
 ```ts
-const tpl = t.tuple(t.string(), t.number(), t.string()); // [string, number, string]
+const tpl = t.tuple(t.string(), t.number(), t.string()) // [string, number, string]
 ```
 
 ## tuple(type[])
 
 ```ts
-const tpl = t.tuple([t.string(), t.number(), t.string()]); // [string, number, string]
+const tpl = t.tuple([t.string(), t.number(), t.string()]) // [string, number, string]
 ```
 
 💔 The following code does not work, TypeScript can not infer array values properly. Use the `as const` workaround to do this.
 
 ```ts
-const types = [t.string(), t.number(), t.string()];
-const tpl = t.tuple(types); // [string, number, string]
+const types = [t.string(), t.number(), t.string()]
+const tpl = t.tuple(types) // [string, number, string]
 ```
 
 ## tuple(type[] as const)
 
 ```ts
-const types = [t.string(), t.number(), t.string()] as const;
-const tpl = t.tuple(types); // [string, number, string]
+const types = [t.string(), t.number(), t.string()] as const
+const tpl = t.tuple(types) // [string, number, string]
 ```
 
 ## object(schema)
@@ -227,9 +227,9 @@ const user = t.object({
   name: t.string(),
   age: t.number(),
   admin: t.boolean(),
-});
+})
 
-type User = t.infer<typeof user>;
+type User = t.infer<typeof user>
 // { name: string, age: number, admin: boolean }
 ```
 
@@ -246,23 +246,23 @@ There are three modes:
 Change the default mode globally.
 
 ```ts
-t.defaultSettings.objectTypeMode = t.ObjectTypeMode.STRIP;
+t.defaultSettings.objectTypeMode = t.ObjectTypeMode.STRIP
 ```
 
 Change the mode locally.
 
 ```ts
-const schema = { a: t.string(), b: t.string() };
-const input = { a: "a", b: "b", c: "c" };
+const schema = { a: t.string(), b: t.string() }
+const input = { a: 'a', b: 'b', c: 'c' }
 
-const user = t.object(schema, t.ObjectTypeMode.STRICT);
-user.parse(input); // throws an TypeParseError
+const user = t.object(schema, t.ObjectTypeMode.STRICT)
+user.parse(input) // throws an TypeParseError
 
-const user = t.object(schema, t.ObjectTypeMode.STRIP);
-user.parse(input); // { a: string, b: string }
+const user = t.object(schema, t.ObjectTypeMode.STRIP)
+user.parse(input) // { a: string, b: string }
 
-const user = t.object(schema, t.ObjectTypeMode.PASSTHROUGH);
-user.parse(input); // { a: string, b: string, c: string }
+const user = t.object(schema, t.ObjectTypeMode.PASSTHROUGH)
+user.parse(input) // { a: string, b: string, c: string }
 ```
 
 ## object helpers
@@ -270,51 +270,51 @@ user.parse(input); // { a: string, b: string, c: string }
 ### .strict()
 
 ```ts
-t.object(schema).strict();
+t.object(schema).strict()
 // same as
-t.object(schema, t.ObjectTypeMode.STRICT);
+t.object(schema, t.ObjectTypeMode.STRICT)
 ```
 
 ### .strip()
 
 ```ts
-t.object(schema).strip();
+t.object(schema).strip()
 // same as
-t.object(schema, t.ObjectTypeMode.STRIP);
+t.object(schema, t.ObjectTypeMode.STRIP)
 ```
 
 ### .passthrough()
 
 ```ts
-t.object(schema).passthrough();
+t.object(schema).passthrough()
 // same as
-t.object(schema, t.ObjectTypeMode.PASSTHROUGH);
+t.object(schema, t.ObjectTypeMode.PASSTHROUGH)
 ```
 
 ## union(...type)
 
 ```ts
-const uni = t.union(t.string(), t.number()); // string | number
+const uni = t.union(t.string(), t.number()) // string | number
 ```
 
 ## union(type[])
 
 ```ts
-const tpl = t.union([t.string(), t.number(), t.string()]); // string | number
+const tpl = t.union([t.string(), t.number(), t.string()]) // string | number
 ```
 
 💔 The following code does not work, TypeScript can not infer array values properly. Use the `as const` workaround to do this.
 
 ```ts
-const types = [t.string(), t.number(), t.string()];
-const tpl = t.union(types); // string | number
+const types = [t.string(), t.number(), t.string()]
+const tpl = t.union(types) // string | number
 ```
 
 ## union(type[] as const)
 
 ```ts
-const types = [t.string(), t.number(), t.string()] as const;
-const tpl = t.union(types); // string | number
+const types = [t.string(), t.number(), t.string()] as const
+const tpl = t.union(types) // string | number
 ```
 
 ## optional(type)
@@ -323,35 +323,38 @@ const tpl = t.union(types); // string | number
 const user = t.object({
   name: t.string(),
   age: t.optional(t.number()),
-});
+})
 // { name: string, age?: number }
 ```
 
 ## enum(...string)
 
 ```ts
-const myEnum = t.enum("UP", "DOWN", "LEFT", "RIGHT");
+const myEnum = t.enum('UP', 'DOWN', 'LEFT', 'RIGHT')
 ```
 
 ### Access enum properties
 
 ```ts
-myEnum.enum.UP; // === "UP"
-myEnum.enum.PLOP; // error: PLOP does not exists
-myEnum.enum.DOWN = "prout"; // error: it is read-only
+// === "UP"
+myEnum.enum.UP
+// error: PLOP does not exists
+myEnum.enum.PLOP
+// error: it is read-only
+myEnum.enum.DOWN = "prout"
 
 (property) enum: {
-  readonly UP: "UP";
-  readonly DOWN: "DOWN";
-  readonly LEFT: "LEFT";
-  readonly RIGHT: "RIGHT";
+  readonly UP: "UP"
+  readonly DOWN: "DOWN"
+  readonly LEFT: "LEFT"
+  readonly RIGHT: "RIGHT"
 }
 ```
 
 ### Access enum values
 
 ```ts
-myEnum.options[1]; // === "DOWN"
+myEnum.options[1] // === "DOWN"
 
 (property) options: ["UP", "DOWN", "LEFT", "RIGHT"]
 ```
@@ -359,80 +362,80 @@ myEnum.options[1]; // === "DOWN"
 ### Test enum values
 
 ```ts
-myEnum.parse(myEnum.enum.LEFT); // => "LEFT"
-myEnum.parse("LEFT"); // => "LEFT"
-myEnum.parse("2"); // => "LEFT"
-myEnum.parse(2); // => "LEFT"
-myEnum.parse("PLOP"); // error: expected '0|1|2|3|UP|DOWN|LEFT|RIGHT' got 'string'
+myEnum.parse(myEnum.enum.LEFT) // => "LEFT"
+myEnum.parse('LEFT') // => "LEFT"
+myEnum.parse('2') // => "LEFT"
+myEnum.parse(2) // => "LEFT"
+myEnum.parse('PLOP') // error: expected '0|1|2|3|UP|DOWN|LEFT|RIGHT' got 'string'
 ```
 
 ### Infer enum type
 
 ```ts
-type MyEnum = t.infer<typeof myEnum>; // => "UP" | "DOWN" | "LEFT" | "RIGHT"
+type MyEnum = t.infer<typeof myEnum> // => "UP" | "DOWN" | "LEFT" | "RIGHT"
 
 function move(direction: MyEnum) {
   // direction === "DOWN"
 }
 
-move(myEnum.enum.DOWN);
+move(myEnum.enum.DOWN)
 ```
 
 ## enum(string[])
 
 ```ts
-const myEnum = t.enum(["UP", "DOWN", "LEFT", "RIGHT"]);
+const myEnum = t.enum(['UP', 'DOWN', 'LEFT', 'RIGHT'])
 ```
 
 💔 The following code does not work, TypeScript can not infer array values properly. Use the `as const` workaround to do this.
 
 ```ts
-const values = ["UP", "DOWN", "LEFT", "RIGHT"];
-const myEnum = t.enum(values);
+const values = ['UP', 'DOWN', 'LEFT', 'RIGHT']
+const myEnum = t.enum(values)
 ```
 
 ## enum(string[] as const)
 
 ```ts
-const myEnum = t.enum(["UP", "DOWN", "LEFT", "RIGHT"] as const);
+const myEnum = t.enum(['UP', 'DOWN', 'LEFT', 'RIGHT'] as const)
 ```
 
 ```ts
-const values = ["UP", "DOWN", "LEFT", "RIGHT"] as const;
-const myEnum = t.enum(values);
+const values = ['UP', 'DOWN', 'LEFT', 'RIGHT'] as const
+const myEnum = t.enum(values)
 ```
 
 ## enum(object)
 
 ```ts
-const myEnum = t.enum({ UP: "UP", DOWN: "DOWN", LEFT: 42, RIGHT: 43 });
+const myEnum = t.enum({ UP: 'UP', DOWN: 'DOWN', LEFT: 42, RIGHT: 43 })
 ```
 
 💔 The following code does not work, TypeScript can not infer object properties properly. Use the `as const` workaround to do this.
 
 ```ts
-const values = { UP: "UP", DOWN: "DOWN", LEFT: 42, RIGHT: 43 };
-const myEnum = t.enum(values);
+const values = { UP: 'UP', DOWN: 'DOWN', LEFT: 42, RIGHT: 43 }
+const myEnum = t.enum(values)
 ```
 
 ## enum(object as const)
 
 ```ts
-const values = { UP: "UP", DOWN: "DOWN", LEFT: 42, RIGHT: 43 } as const;
-const myEnum = t.enum(values);
+const values = { UP: 'UP', DOWN: 'DOWN', LEFT: 42, RIGHT: 43 } as const
+const myEnum = t.enum(values)
 ```
 
 ## enum(enum)
 
 ```ts
 enum MyEnum {
-  UP = "UP",
-  DOWN = "DOWN",
+  UP = 'UP',
+  DOWN = 'DOWN',
   LEFT = 42,
   RIGHT,
 }
 
-const myEnum = t.enum(MyEnum);
+const myEnum = t.enum(MyEnum)
 ```
 
 ## nativeEnum(enum)
@@ -441,13 +444,13 @@ Alias: `enum(enum)`
 
 ```ts
 enum MyEnum {
-  UP = "UP",
-  DOWN = "DOWN",
+  UP = 'UP',
+  DOWN = 'DOWN',
   LEFT = 42,
   RIGHT,
 }
 
-const myEnum = t.nativeEnum(MyEnum);
+const myEnum = t.nativeEnum(MyEnum)
 ```
 
 ## instanceof(type)
@@ -455,26 +458,26 @@ const myEnum = t.nativeEnum(MyEnum);
 ```ts
 class MyClass {}
 
-const instance = new MyClass();
+const instance = new MyClass()
 
-t.instanceof(MyClass).parse(instance); // passes
-t.instanceof(MyClass).parse("nyan"); // fail
+t.instanceof(MyClass).parse(instance) // passes
+t.instanceof(MyClass).parse('nyan') // fail
 ```
 
 ## date()
 
 ```ts
-t.date().parse(new Date()); // passes
-t.date().parse("2022-01-12T00:00:00.000Z"); // passes
-t.date().parse("not a string date"); // fail
+t.date().parse(new Date()) // passes
+t.date().parse('2022-01-12T00:00:00.000Z') // passes
+t.date().parse('not a string date') // fail
 ```
 
 ## record(type)
 
 ```ts
-t.record(t.string()); // { [x: string]: string }
-t.record(t.number()); // { [x: string]: number }
-t.record(t.date()); // { [x: string]:  Date }
+t.record(t.string()) // { [x: string]: string }
+t.record(t.number()) // { [x: string]: number }
+t.record(t.date()) // { [x: string]:  Date }
 ```
 
 ## set(type)
@@ -482,13 +485,13 @@ t.record(t.date()); // { [x: string]:  Date }
 Testing a single type on the entire set
 
 ```ts
-t.set(t.string()); // Set<string>
+t.set(t.string()) // Set<string>
 ```
 
 Testing a union of types on the entire set
 
 ```ts
-t.set(t.union(t.string(), t.boolean(), t.string())); // Set<string|boolean>
+t.set(t.union(t.string(), t.boolean(), t.string())) // Set<string|boolean>
 ```
 
 ## set(...type)
@@ -500,15 +503,15 @@ Same as [tuple(...type)](#tupletype) but test if the input is an instance of Set
 Testing a tuple of types on the Set
 
 ```ts
-t.set(t.string(), t.boolean(), t.string()); // Set<[string, boolean, string]>
-t.set([t.string(), t.boolean(), t.string()]); // Set<[string, boolean, string]>
+t.set(t.string(), t.boolean(), t.string()) // Set<[string, boolean, string]>
+t.set([t.string(), t.boolean(), t.string()]) // Set<[string, boolean, string]>
 ```
 
 ## map(keyType, valueType)
 
 ```ts
-t.map(t.string(), t.number()); // Map<string, number>
-t.map(t.date(), t.string()); // Map<Date, string>
+t.map(t.string(), t.number()) // Map<string, number>
+t.map(t.date(), t.string()) // Map<Date, string>
 ```
 
 ## map(schema)
@@ -516,58 +519,58 @@ t.map(t.date(), t.string()); // Map<Date, string>
 Same as [object(schema)](#objectschema) but test if the input is an instance of Map.
 
 ```ts
-const map = new Map();
+const map = new Map()
 
-t.map({ name: t.string(), size: t.string() }).parse(map);
+t.map({ name: t.string(), size: t.string() }).parse(map)
 ```
 
 ## promise(type)
 
 ```ts
-const promise = t.promise(t.number());
+const promise = t.promise(t.number())
 
-await promise.parse(Promise.resolve(42)); // resolve: 42
-await promise.parse(Promise.resolve("42")); // reject: expected 'number' got 'string'
-await promise.parse(42); // reject: expected 'Promise' got 'number'
+await promise.parse(Promise.resolve(42)) // resolve: 42
+await promise.parse(Promise.resolve('42')) // reject: expected 'number' got 'string'
+await promise.parse(42) // reject: expected 'Promise' got 'number'
 ```
 
 ## function()
 
 ```ts
-const func = t.function();
+const func = t.function()
 
-type Func = t.infer<typeof func>; // () => void
+type Func = t.infer<typeof func> // () => void
 ```
 
 ## function(args)
 
 ```ts
-const func = t.function([t.string(), t.number()]);
+const func = t.function([t.string(), t.number()])
 
-type Func = t.infer<typeof func>; // (arg_0: string, arg_1: number) => void
+type Func = t.infer<typeof func> // (arg_0: string, arg_1: number) => void
 ```
 
 ## function(args, returns)
 
 ```ts
-const func = t.function([t.string()], t.boolean());
+const func = t.function([t.string()], t.boolean())
 
-type Func = t.infer<typeof func>; // (arg_0: string) => boolean
+type Func = t.infer<typeof func> // (arg_0: string) => boolean
 ```
 
 ## function(args, returns, implement)
 
 ```ts
-const args = [t.string(), t.boolean()] as const;
+const args = [t.string(), t.boolean()] as const
 
-const returns = t.union(t.string(), t.number());
+const returns = t.union(t.string(), t.number())
 
 const func = t.function(args, returns, (input, toInt) => {
   // input type is string and toInt type is boolean
-  return toInt ? parseInt(input) : input.toUpperCase();
-});
+  return toInt ? Number.parseInt(input) : input.toUpperCase()
+})
 
-type Func = t.infer<typeof func>; // (arg_0: string, arg_1: boolean) => string | number
+type Func = t.infer<typeof func> // (arg_0: string, arg_1: boolean) => string | number
 ```
 
 ## preprocess(filter, type)
@@ -575,10 +578,10 @@ type Func = t.infer<typeof func>; // (arg_0: string, arg_1: boolean) => string |
 If you want to modify the input before it is parsed you can use the `preprocess` type as follows.
 
 ```ts
-const toString = t.preprocess((input) => String(input), t.string());
+const toString = t.preprocess(input => String(input), t.string())
 
-toString.parse("42"); // => "42"
-toString.parse(42); // => "42"
+toString.parse('42') // => "42"
+toString.parse(42) // => "42"
 ```
 
 ## postprocess(filter, type)
@@ -586,10 +589,10 @@ toString.parse(42); // => "42"
 If you want to modify the output after it is parsed you can use the `postprocess` type as follows.
 
 ```ts
-const postprocess = t.postprocess((input) => input + 2, t.number());
+const postprocess = t.postprocess(input => input + 2, t.number())
 
-postprocess.parse(40); // => 42
-postprocess.parse("42"); // throws: "expected 'number' got 'string'"
+postprocess.parse(40) // => 42
+postprocess.parse('42') // throws: "expected 'number' got 'string'"
 ```
 
 ## postprocess(filter, inputType, outputType)
@@ -598,13 +601,13 @@ If you want to modify the output after it is parsed you can use the `postprocess
 
 ```ts
 const postprocess = t.postprocess(
-  (input) => String(input),
+  input => String(input),
   t.number(),
   t.string(),
-);
+)
 
-postprocess.parse(40); // => "42"
-postprocess.parse("42"); // => throws: "expected 'number' got 'string'"
+postprocess.parse(40) // => "42"
+postprocess.parse('42') // => throws: "expected 'number' got 'string'"
 ```
 
 # Type helpers
@@ -614,10 +617,10 @@ postprocess.parse("42"); // => throws: "expected 'number' got 'string'"
 If you want to avoid the parse method throws an error you can use the `.safeParse()` method instead.
 
 ```ts
-t.bigint().safeParse(42n);
+t.bigint().safeParse(42n)
 // => { success: true, data: 42n }
 
-t.bigint().safeParse(42);
+t.bigint().safeParse(42)
 // => {
 //   "error": [TypeParseError: expected 'bigint|undefined' got 'number'],
 //   "success": false,
@@ -627,19 +630,19 @@ t.bigint().safeParse(42);
 ## optional()
 
 ```ts
-t.bigint().optional(); // => bigint | undefined
+t.bigint().optional() // => bigint | undefined
 
 // same as
-t.optional(t.bigint());
+t.optional(t.bigint())
 ```
 
 ## preprocess()
 
 ```ts
-t.string().preprocess((input) => String(input));
+t.string().preprocess(input => String(input))
 
 // same as
-t.preprocess((input) => String(input), t.string());
+t.preprocess(input => String(input), t.string())
 ```
 
 ## postprocess()
@@ -647,8 +650,8 @@ t.preprocess((input) => String(input), t.string());
 Alias: `.transform()`
 
 ```ts
-t.number().postprocess((input) => input + 2);
+t.number().postprocess(input => input + 2)
 
 // same as
-t.postprocess((input) => input + 2, t.number());
+t.postprocess(input => input + 2, t.number())
 ```

@@ -1,15 +1,15 @@
-import { InferType, Type } from "../types";
+import type { InferType, Type } from '../types'
 
 export function postprocessType<
   TInput extends Type<InferType<TInput>>,
   TFunc extends (input: InferType<TInput>) => InferType<TInput>,
->(filter: TFunc, inputType: TInput): TInput;
+>(filter: TFunc, inputType: TInput): TInput
 
 export function postprocessType<
   TInput extends Type<InferType<TInput>>,
   TOutput extends Type<InferType<TOutput>>,
   TFunc extends (input: InferType<TInput>) => InferType<TOutput>,
->(filter: TFunc, inputType: TInput, outputType: TOutput): TOutput;
+>(filter: TFunc, inputType: TInput, outputType: TOutput): TOutput
 
 export function postprocessType<
   TInput extends Type<InferType<TInput>>,
@@ -21,13 +21,12 @@ export function postprocessType<
   return {
     ...inputType,
     parse(input: unknown) {
-      const value = filter(inputType.parse(input));
+      const value = filter(inputType.parse(input))
 
-      if (typeof outputType !== "undefined") {
-        return outputType.parse(value);
-      }
+      if (typeof outputType !== 'undefined')
+        return outputType.parse(value)
 
-      return inputType.parse(value);
+      return inputType.parse(value)
     },
-  };
+  }
 }

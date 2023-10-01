@@ -1,6 +1,6 @@
-import { ClassLike, Type } from "../types";
-import { instanceOf } from "../util";
-import { helpers } from "../helpers";
+import type { ClassLike, Type } from '../types'
+import { instanceOf } from '../util'
+import { helpers } from '../helpers'
 
 export function instanceofType<TType extends ClassLike>(
   type: TType,
@@ -8,7 +8,7 @@ export function instanceofType<TType extends ClassLike>(
   return {
     ...helpers(),
     parse(input: unknown): TType {
-      return instanceOf<TType>(type, input);
+      return instanceOf<TType>(type, input)
     },
-  };
+  }
 }

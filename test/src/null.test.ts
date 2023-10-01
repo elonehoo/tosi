@@ -1,21 +1,21 @@
-import { expect, test } from "vitest";
-import { t } from "tosi";
+import { expect, test } from 'vitest'
+import { t } from 'tosi'
 
-test("null() infer", () => {
-  const type = t.null();
-  type Type = t.infer<typeof type>;
-  const assertType: t.AssertEqual<Type, null> = true;
-  assertType;
+test('null() infer', () => {
+  const type = t.null()
+  type Type = t.infer<typeof type>
+  const assertType: t.AssertEqual<Type, null> = true
+  assertType
 
-  const value = type.parse(null);
-  const assertValue: t.AssertEqual<typeof value, Type> = true;
-  assertValue;
-});
+  const value = type.parse(null)
+  const assertValue: t.AssertEqual<typeof value, Type> = true
+  assertValue
+})
 
-test("null()", () => {
-  expect(t.null().parse(null)).toBe(null);
-  expect(() => t.null().parse(0)).toThrow("expected 'null' got 'number'");
+test('null()', () => {
+  expect(t.null().parse(null)).toBe(null)
+  expect(() => t.null().parse(0)).toThrow('expected \'null\' got \'number\'')
   expect(() => t.null().parse(undefined)).toThrow(
-    "expected 'null' got 'undefined'",
-  );
-});
+    'expected \'null\' got \'undefined\'',
+  )
+})

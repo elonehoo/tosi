@@ -1,15 +1,15 @@
-import { TypeParseError } from "../errors";
-import { Literal, LiteralType } from "../types";
-import { helpers } from "../helpers";
-import { typeOf } from "../util";
-import { stringType } from "./string";
-import { numberType } from "./number";
-import { booleanType } from "./boolean";
-import { bigintType } from "./bigint";
-import { symbolType } from "./symbol";
-import { nullType } from "./null";
-import { undefinedType } from "./undefined";
-import { unionType } from "./union";
+import { TypeParseError } from '../errors'
+import type { Literal, LiteralType } from '../types'
+import { helpers } from '../helpers'
+import { typeOf } from '../util'
+import { stringType } from './string'
+import { numberType } from './number'
+import { booleanType } from './boolean'
+import { bigintType } from './bigint'
+import { symbolType } from './symbol'
+import { nullType } from './null'
+import { undefinedType } from './undefined'
+import { unionType } from './union'
 
 export function literalType<TType extends Literal>(
   value: TType,
@@ -22,21 +22,20 @@ export function literalType<TType extends Literal>(
     symbolType(),
     nullType(),
     undefinedType(),
-  ]);
+  ])
 
-  schema.parse(value);
+  schema.parse(value)
 
   return {
     value,
     ...helpers(),
     parse(input: unknown): TType {
-      schema.parse(input);
+      schema.parse(input)
 
-      if (input !== value) {
-        throw new TypeParseError(typeOf(value), input);
-      }
+      if (input !== value)
+        throw new TypeParseError(typeOf(value), input)
 
-      return input as TType;
+      return input as TType
     },
-  };
+  }
 }

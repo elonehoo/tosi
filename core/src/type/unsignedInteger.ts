@@ -1,18 +1,17 @@
-import { TypeParseError } from "../errors";
-import { helpers } from "../helpers";
-import { Type } from "../types";
+import { TypeParseError } from '../errors'
+import { helpers } from '../helpers'
+import type { Type } from '../types'
 
 export function unsignedIntegerType(): Type<number> {
   return {
     ...helpers(),
     parse(input: unknown): number {
-      const value = input as number;
+      const value = input as number
 
-      if (Number.isInteger(value) === false || value < 0) {
-        throw new TypeParseError("unsigned integer", input);
-      }
+      if (Number.isInteger(value) === false || value < 0)
+        throw new TypeParseError('unsigned integer', input)
 
-      return input as number;
+      return input as number
     },
-  };
+  }
 }

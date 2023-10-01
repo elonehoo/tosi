@@ -3,22 +3,22 @@
   "type": "module",
   "version": "0.0.7",
   "description": "Type Safe Object Notation & Validation",
+  "author": "Elone Hoo <elonehoo@gmail.com> (https://github.com/elonehoo)",
+  "license": "MIT",
   "keywords": [
     "typescript",
     "validation"
   ],
-  "license": "MIT",
-  "author": "Elone Hoo <elonehoo@gmail.com> (https://github.com/elonehoo)",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.cjs",
+      "require": "./dist/index.js"
+    }
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.cjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "files": [
     "dist"
   ],
@@ -26,8 +26,8 @@
     "build": "tsup"
   },
   "dependencies": {
-    "tsup": "^7.1.0",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.6"
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
   }
 }
